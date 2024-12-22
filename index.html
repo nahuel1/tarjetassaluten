@@ -15,19 +15,6 @@
         h1 {
             color: #ff4b5c;
         }
-        .card {
-            width: 300px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .card img {
-            width: 100%;
-            border-radius: 10px;
-        }
         .form-group {
             margin-bottom: 15px;
         }
@@ -57,45 +44,55 @@
         .btn:hover {
             background-color: #e43e4f;
         }
+        canvas {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>🎄 Tarjetas de Navidad Personalizadas 🎅</h1>
-    <div class="card">
-        <img id="previewImage" src="https://via.placeholder.com/300x200?text=Feliz+Navidad" alt="Tarjeta de Navidad">
-        <form id="cardForm">
-            <div class="form-group">
-                <label for="name">Nombre del destinatario:</label>
-                <input type="text" id="name" name="name" placeholder="Ejemplo: María" required>
-            </div>
-            <div class="form-group">
-                <label for="message">Mensaje personalizado:</label>
-                <textarea id="message" name="message" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="image">URL de la imagen:</label>
-                <input type="url" id="image" name="image" placeholder="Ejemplo: https://miimagen.com/navidad.jpg">
-            </div>
-            <button type="button" class="btn" onclick="generateCard()">Generar Tarjeta</button>
-        </form>
-    </div>
-    <div id="result" class="card" style="display:none;">
-        <img id="cardImage" src="https://via.placeholder.com/300x200?text=Feliz+Navidad" alt="Tarjeta personalizada">
-        <h3 id="cardName"></h3>
-        <p id="cardMessage"></p>
-    </div>
+    <form id="cardForm">
+        <div class="form-group">
+            <label for="name">Nombre del destinatario:</label>
+            <input type="text" id="name" name="name" placeholder="Ejemplo: María" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Mensaje personalizado:</label>
+            <textarea id="message" name="message" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="image">URL de la imagen:</label>
+            <input type="url" id="image" name="image" placeholder="Ejemplo: https://miimagen.com/navidad.jpg">
+        </div>
+        <button type="button" class="btn" onclick="generateCard()">Generar Tarjeta</button>
+    </form>
+    <canvas id="cardCanvas" width="400" height="300" style="display:none;"></canvas>
     <script>
         function generateCard() {
             const name = document.getElementById('name').value;
             const message = document.getElementById('message').value;
-            const imageUrl = document.getElementById('image').value || 'https://via.placeholder.com/300x200?text=Feliz+Navidad';
+            const imageUrl = document.getElementById('image').value || 'https://via.placeholder.com/400x300?text=Feliz+Navidad';
 
             if (name && message) {
-                document.getElementById('cardName').textContent = `Para: ${name}`;
-                document.getElementById('cardMessage').textContent = message;
-                document.getElementById('cardImage').src = imageUrl;
-                document.getElementById('result').style.display = 'block';
-                document.getElementById('previewImage').src = imageUrl;
+                const canvas = document.getElementById('cardCanvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                img.crossOrigin = "anonymous"; // Para permitir imágenes de diferentes orígenes.
+
+                img.onload = function () {
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    ctx.font = '20px Arial';
+                    ctx.fillStyle = 'white';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`Para: ${name}`, canvas.width / 2, canvas.height - 60);
+                    ctx.fillText(message, canvas.width / 2, canvas.height - 30);
+
+                    canvas.style.display = 'block';
+                };
+                img.src = imageUrl;
             } else {
                 alert('Por favor, completa todos los campos.');
             }
