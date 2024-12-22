@@ -62,7 +62,7 @@
 <body>
     <h1>🎄 Tarjetas de Navidad Personalizadas 🎅</h1>
     <div class="card">
-        <img src="https://via.placeholder.com/300x200?text=Feliz+Navidad" alt="Tarjeta de Navidad">
+        <img id="previewImage" src="https://via.placeholder.com/300x200?text=Feliz+Navidad" alt="Tarjeta de Navidad">
         <form id="cardForm">
             <div class="form-group">
                 <label for="name">Nombre del destinatario:</label>
@@ -71,6 +71,10 @@
             <div class="form-group">
                 <label for="message">Mensaje personalizado:</label>
                 <textarea id="message" name="message" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image">URL de la imagen:</label>
+                <input type="url" id="image" name="image" placeholder="Ejemplo: https://miimagen.com/navidad.jpg">
             </div>
             <button type="button" class="btn" onclick="generateCard()">Generar Tarjeta</button>
         </form>
@@ -84,11 +88,14 @@
         function generateCard() {
             const name = document.getElementById('name').value;
             const message = document.getElementById('message').value;
+            const imageUrl = document.getElementById('image').value || 'https://via.placeholder.com/300x200?text=Feliz+Navidad';
 
             if (name && message) {
                 document.getElementById('cardName').textContent = `Para: ${name}`;
                 document.getElementById('cardMessage').textContent = message;
+                document.getElementById('cardImage').src = imageUrl;
                 document.getElementById('result').style.display = 'block';
+                document.getElementById('previewImage').src = imageUrl;
             } else {
                 alert('Por favor, completa todos los campos.');
             }
