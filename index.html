@@ -6,7 +6,7 @@
     <title>Tarjetas de Navidad Personalizadas</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Courier New', Courier, monospace;
             background-color: #f7f7f7;
             color: #333;
             text-align: center;
@@ -14,6 +14,19 @@
         }
         h1 {
             color: #ff4b5c;
+        }
+        .card {
+            width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card img {
+            width: 100%;
+            border-radius: 10px;
         }
         .form-group {
             margin-bottom: 15px;
@@ -53,21 +66,23 @@
 </head>
 <body>
     <h1>🎄 Tarjetas de Navidad Personalizadas 🎅</h1>
-    <form id="cardForm">
-        <div class="form-group">
-            <label for="name">Nombre del destinatario:</label>
-            <input type="text" id="name" name="name" placeholder="Ejemplo: María" required>
-        </div>
-        <div class="form-group">
-            <label for="message">Mensaje personalizado:</label>
-            <textarea id="message" name="message" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="image">URL de la imagen:</label>
-            <input type="url" id="image" name="image" placeholder="Ejemplo: https://miimagen.com/navidad.jpg">
-        </div>
-        <button type="button" class="btn" onclick="generateCard()">Generar Tarjeta</button>
-    </form>
+    <div class="card">
+        <form id="cardForm">
+            <div class="form-group">
+                <label for="name">Nombre del destinatario:</label>
+                <input type="text" id="name" name="name" placeholder="Ejemplo: María" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Mensaje personalizado:</label>
+                <textarea id="message" name="message" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image">URL de la imagen:</label>
+                <input type="url" id="image" name="image" placeholder="Ejemplo: https://miimagen.com/navidad.jpg">
+            </div>
+            <button type="button" class="btn" onclick="generateCard()">Generar Tarjeta</button>
+        </form>
+    </div>
     <canvas id="cardCanvas" width="400" height="300" style="display:none;"></canvas>
     <script>
         function generateCard() {
@@ -79,16 +94,18 @@
                 const canvas = document.getElementById('cardCanvas');
                 const ctx = canvas.getContext('2d');
                 const img = new Image();
-                img.crossOrigin = "anonymous"; // Para permitir imágenes de diferentes orígenes.
+                img.crossOrigin = "anonymous";
 
                 img.onload = function () {
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                    ctx.font = '20px Arial';
-                    ctx.fillStyle = 'white';
+                    ctx.font = '24px "Comic Sans MS", cursive';
+                    ctx.fillStyle = 'gold';
                     ctx.textAlign = 'center';
-                    ctx.fillText(`Para: ${name}`, canvas.width / 2, canvas.height - 60);
-                    ctx.fillText(message, canvas.width / 2, canvas.height - 30);
+
+                    // Personalización de texto
+                    ctx.fillText(`Para: ${name}`, canvas.width / 2, canvas.height - 80);
+                    ctx.fillText(message, canvas.width / 2, canvas.height - 40);
 
                     canvas.style.display = 'block';
                 };
